@@ -18,35 +18,44 @@ void NN::init_params() {
 
 void NN::forward_prop() {
 	Z1 = W1 * a0 + b1;
-	Get_ReLu(Z1);
-	a1 << ReLu;
+
+	a1 = ReLu(Z1);
+
 	Z2 = W2 * a1 + b2;
-	Z = Z2;
-	Get_softmax(Z2);
-	a2 << softmax;
+
+	a2 = softmax(Z2);
+
 	a = a2;
 
 }
 
-void NN::Get_ReLu(Eigen::Vector <double, 10> Z) {
+Eigen::Vector <double, 10> NN::softmax(Eigen::Vector <double, 10> Z) {
 
-	for (int i = 0; i < Z.size(); i++) {
+	Z = Z.array().exp() / Z.array().exp().sum();
 
-		ReLu(i) = std::max(0.0, Z(i));
-
-	}
-
+	return Z;
 }
 
-void NN::Get_softmax(Eigen::Vector <double, 10> Z) {
+Eigen::Vector<double, 10> NN::ReLu(Eigen::Vector<double, 10> Z) {
 
 	for (int i = 0; i < Z.size(); i++) {
 
-		softmax(i) =  exp(Z(i)) / Z.array().exp().sum();
+		Z(i) = std::max(0.0, Z(i));
 
 	}
+	return Z;
+}
 
-};
+Eigen::Vector<double, 10> NN::one_hot(int y){
+
+	Eigen::Vector <double, 10> one_hot_Y = Eigen::VectorXd::Zero(10);
+
+	one_hot_Y(y) = 1;
+
+	return one_hot_Y;
+}
+
+
 
 
 
@@ -61,8 +70,11 @@ int main()
 
 
 	std::cout << "\n";
-	std::cout << n->a << "\n";
+	std::cout << (n->a) << "\n";
+	std::cout << "\n";
+	Eigen::Vector <double, 10> one_hot_Y = Eigen::VectorXd::Zero(10);
 
+	one_hot_Y(0) = 1;
 
-
+	std::cout << one_hot_Y << "\n";
 }

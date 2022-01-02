@@ -18,18 +18,17 @@ public:
 	Eigen::Vector <double, 10> Z1;
 	Eigen::Vector <double, 10> Z2;
 
-	Eigen::Vector <double, 10> ReLu;
-	Eigen::Vector <double, 10> softmax;
-	Eigen::Vector <double, 10> Z;
+
 	Eigen::Vector <double, 10> a;
-	//Eigen::Vector <double, 10> Z1;
-	//Eigen::Vector <double, 10> a1;
-	//Eigen::Vector <double, 10> Z2;
-	//Eigen::Vector <double, 10> a2;
+
+	Eigen::Vector<double, 10> softmax(Eigen::Vector<double, 10> Z);
+	Eigen::Vector<double, 10> ReLu(Eigen::Vector<double, 10> Z);
+
+	Eigen::Vector<double, 10> one_hot(int y);
+
+
 
 	void forward_prop();
 	void init_params();
-	void Get_ReLu(Eigen::Vector <double, 10> Z);
-	void Get_softmax(Eigen::Vector <double, 10> Z);
 
 };
